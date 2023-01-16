@@ -12,7 +12,6 @@ const MainPage = () => {
   const dispatch = useDispatch();
 
   const {post_list} = useSelector((state) => state.post);
-  console.log(post_list);
 
   const [modal, setModal] = useState();
 
@@ -76,4 +75,5 @@ const StPost = styled.div`
   flex-wrap: wrap;
   gap: 100px 40px;
   margin-top: 100px;
+  padding: 20px;
 `;

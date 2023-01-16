@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 const Card = ({ post }) => {
   const navigate = useNavigate();
-  console.log(post);
 
   //   onClick={() => {
   //     navigate(`/guestbooks/${guestbook.id}`);
@@ -12,12 +11,19 @@ const Card = ({ post }) => {
 
   return (
     <StCard>
-      <StBox>
+      <StImgContainer>
         <div>이미지 구역</div>
+      </StImgContainer>
+      <StTextContainer>
         <div>{post.name}</div>
-        <div>{post.price}</div>
+        <div>
+          {post.price
+            .toString()
+            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
+          원
+        </div>
         <div>댓글 갯수</div>
-      </StBox>
+      </StTextContainer>
     </StCard>
   );
 };
@@ -25,13 +31,30 @@ const Card = ({ post }) => {
 export default Card;
 
 const StCard = styled.div`
-  border: 1px solid #333333;
   color: #333333;
+  width: 240px;
+  height: 360px;
 `;
 
-const StBox = styled.div`
+const StImgContainer = styled.div`
+  border: 1px solid lightblue;
+  width: 90%;
+  height: 230px;
+  margin: 0 auto;
+  border-radius: 15px;
+`;
+
+const StTextContainer = styled.div`
+  padding-left: 15px;
   & > div:first-child {
-    width: 200px;
-    height: 300px;
+    margin: 10px 0px 5px 0px;
+    font-size: 20px;
+  }
+  & > div:nth-child(2) {
+    font-weight: bold;
+    margin: 5px 0px;
+  }
+  & > div:nth-child(3) {
+    color: #868e96;
   }
 `;

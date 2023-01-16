@@ -1,76 +1,60 @@
 {
   "posts": [
     {
-      "name": "324",
-      "description": "234",
-      "price": "243",
+      "name": "test",
+      "description": "test",
+      "price": "12000",
+      "file": "",
       "id": 1
     },
     {
-      "name": "34",
-      "description": "234234234",
-      "price": "234",
+      "name": "test",
+      "description": "test",
+      "price": "12000",
+      "file": "",
       "id": 2
     },
     {
-      "name": "432",
-      "description": "243",
-      "price": "243",
+      "name": "test",
+      "description": "test",
+      "price": "32000",
+      "file": "",
       "id": 3
     },
     {
-      "name": "asdf",
-      "description": "adfs",
-      "price": "adsf",
+      "name": "test",
+      "description": "test",
+      "price": "43000",
+      "file": "",
       "id": 4
     },
     {
-      "name": "342",
-      "description": "243",
-      "price": "423",
+      "name": "test",
+      "description": "est",
+      "price": "324234",
+      "file": {},
       "id": 5
     },
     {
-      "name": "243",
-      "description": "243",
-      "price": "234",
+      "name": "67868",
+      "description": "78979",
+      "price": "78979",
+      "file": {},
       "id": 6
     },
     {
-      "name": "324",
-      "description": "243",
-      "price": "24",
+      "name": "고구마",
+      "description": "ㅁㅇㄴㄹㅁㅇㄴㄹㅁㄹㅇ",
+      "price": "12000",
+      "file": "",
       "id": 7
     },
     {
-      "name": "234",
-      "description": "234",
-      "price": "423",
+      "name": "dsfadf",
+      "description": "dfadsf",
+      "price": "dsfadsf",
+      "file": {},
       "id": 8
-    },
-    {
-      "name": "432",
-      "description": "432342",
-      "price": "234",
-      "id": 9
-    },
-    {
-      "name": "243",
-      "description": "234",
-      "price": "234",
-      "id": 10
-    },
-    {
-      "name": "324",
-      "description": "24",
-      "price": "243",
-      "id": 11
-    },
-    {
-      "id": 12
-    },
-    {
-      "id": 13
     }
   ]
 }

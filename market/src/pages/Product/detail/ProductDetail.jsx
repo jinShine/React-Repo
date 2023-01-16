@@ -78,7 +78,7 @@ const ProductDetail = () => {
                 label="댓글"
                 variant="outlined"
               />
-              <SCommentRegistration variant="contained" sx={{ ml: 1 }}>
+              <SCommentRegistration variant="contained" sx={{ ml: 1, bgcolor: gTheme.color.primary}}>
                 등록
               </SCommentRegistration>
             </SCommentInputContainer>

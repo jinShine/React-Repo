@@ -14,6 +14,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { FormControl } from "@mui/material";
 import { __addPostThunk } from "../../redux/modules/productSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { gTheme } from "../../theme/globalTheme";
 
 
 const ProductRegistration = () => {
@@ -71,10 +72,11 @@ const ProductRegistration = () => {
   return (
     <Layout>
       <Header />
-       
-         
+
         <Stdiv>
-          <Button variant="contained">이 전 으 로</Button>
+          <Button variant="contained" sx={{ bgcolor: gTheme.color.primary }} onClick={() => {
+                navigate("/");
+              }}>이 전 으 로</Button>
         </Stdiv>
         
         {/* 전체를 감싸는 div */}
@@ -150,7 +152,7 @@ const ProductRegistration = () => {
                 name="description"
               />
             
-              <Button variant="contained" type="submit">판매글 등록하기</Button>
+              <Button variant="contained" type="submit" sx={{ bgcolor: gTheme.color.primary }}>판매글 등록하기</Button>
               {/* </StInputdiv> */}
           </StInputBox>
 
@@ -163,11 +165,11 @@ const ProductRegistration = () => {
               <img src={image}/>
             </ViewImg>
             <div>
-            <Button variant="contained" component="label">
+            <Button variant="contained" component="label" sx={{ bgcolor: gTheme.color.primary }}>
                         Upload
                 <input hidden accept="image/*" multiple type="file" onChange={imageUpLoad}/>
               </Button>
-              <Button variant="contained" startIcon={<DeleteIcon />}>
+              <Button variant="contained" startIcon={<DeleteIcon />} sx={{ bgcolor: gTheme.color.primary }}>
                    Delete
               </Button>
             </div>

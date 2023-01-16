@@ -6,7 +6,6 @@ import { authInstance, defaultInstance } from "../../shared/api";
 export const __addPostThunk = createAsyncThunk(
   "ADD_POST",
   async (payload, thunkAPI) => {
-    console.log("pay", payload);
     // const formData = new FormData();
 
     // const request = {
@@ -27,7 +26,8 @@ export const __addPostThunk = createAsyncThunk(
 
     try {
       const { data } = await defaultInstance.post(
-        `/posts`
+        `/posts`,
+        payload
         // , formData, {
         //   headers: {
         //     "Content-Type": "multipart/form-data",
@@ -79,11 +79,7 @@ const initialState = {
 export const productSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {
-    // clearGuestbook: (state, action) => {
-    //   state.isSuccess = false;
-    // },
-  },
+  reducers: {},
   extraReducers: {
     [__getPostThunk.pending]: (state) => {
       state.isLoading = true;
@@ -102,8 +98,6 @@ export const productSlice = createSlice({
     [__addPostThunk.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.post_list = [...state.post_list, action.payload];
-      console.log("postlist", state.post_list);
-      console.log("action", action.payload);
     },
     [__addPostThunk.rejected]: (state, action) => {
       state.isLoading = false;
