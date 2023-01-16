@@ -17,6 +17,7 @@ const MainPage = () => {
         <button onClick={() => navigate("/product-registration")}>
           상품등록
         </button>
+        <button onClick={() => navigate("/product-detail")}>상품상세</button>
       </div>
     </Layout>
   );

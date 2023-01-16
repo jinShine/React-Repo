@@ -1,10 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "../pages/error/NotFound";
-import Signin from "../pages/Login/Signin";
-import Signout from "../pages/Login/Signout";
-import Signup from "../pages/Login/Signup";
-import MainPage from "../pages/Main/MainPage";
-import ProductRegistration from "../pages/Product/ProductRegistration";
+
+import Signin from "../pages/login/Signin";
+import Signout from "../pages/login/Signout";
+import Signup from "../pages/login/Signup";
+import MainPage from "../pages/main/MainPage";
+import ProductDetail from "../pages/product/detail/ProductDetail";
+import ProductRegistration from "../pages/product/ProductRegistration";
+
 
 const Router = () => {
   return (
@@ -21,6 +24,7 @@ const Router = () => {
           path={"/product-registration"}
           element={<ProductRegistration />}
         />
+        <Route path={"/product-detail"} element={<ProductDetail />} />
         {/* Error */}
         <Route path="*" element={<NotFound />} />
       </Routes>
