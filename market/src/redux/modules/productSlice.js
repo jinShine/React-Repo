@@ -7,31 +7,33 @@ export const __addPostThunk = createAsyncThunk(
   "ADD_POST",
   async (payload, thunkAPI) => {
     console.log("pay", payload);
-    const formData = new FormData();
+    // const formData = new FormData();
 
-    const request = {
-      name: payload.name,
-      description: payload.description,
-      price: payload.price,
-    };
-    console.log(request);
+    // const request = {
+    //   name: payload.name,
+    //   description: payload.description,
+    //   price: payload.price,
+    // };
+    // console.log(request);
     // const json = JSON.stringify(request);
     // const blob = new Blob([json], { type: "application/json" });
 
-    formData.append("name", payload.name);
-    console.log("form", formData);
-    formData.append("description", payload.description);
-    formData.append("price", payload.price);
-    formData.append("file", payload.file);
+    // formData.append("name", payload.name);
+    // console.log("form", formData);
+    // formData.append("description", payload.description);
+    // formData.append("price", payload.price);
+    // formData.append("file", payload.file);
     // formData.append("request", blob);
-    console.log("form", formData);
 
     try {
-      const { data } = await defaultInstance.post(`/posts`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const { data } = await defaultInstance.post(
+        `/posts`
+        // , formData, {
+        //   headers: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+        // }
+      );
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -40,6 +42,17 @@ export const __addPostThunk = createAsyncThunk(
 );
 
 ///////// 전체 게시글 조회 thunk,GET ///////////////////
+export const __getPostThunk = createAsyncThunk(
+  "GET_POSTS",
+  async (payload, thunkAPI) => {
+    try {
+      const { data } = await defaultInstance.get(`/posts`);
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 ///////// 게시글 삭제 thunk,DELETE ///////////////////
 
@@ -72,6 +85,17 @@ export const productSlice = createSlice({
     // },
   },
   extraReducers: {
+    [__getPostThunk.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getPostThunk.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.post_list = action.payload;
+    },
+    [__getPostThunk.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
     [__addPostThunk.pending]: (state) => {
       state.isLoading = true;
     },

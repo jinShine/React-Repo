@@ -35,6 +35,7 @@ const StContainer = styled.div`
   align-items: center;
   align-items: center;
   padding: 20px;
+  backdrop-filter: blur(30px);
   & > div > img {
     width: 80px;
     height: 80px;
