@@ -36,19 +36,7 @@ const ProductRegistration = () => {
   const [image, setImage] = useState(null);
   const [imageFile, setImageFile] = useState("");
 
-  const imageUpLoad = (e)=> {
-    imagePreview(e.target.files[0]);
-    setImageFile(e.target.files[0]);
-    console.log("img", imageFile);
-    setPost({
-      ...post,
-      file: e.target.files[0],
-    })
-    console.log("img", imageFile);
-  }
 
-  console.log("img", imageFile);
-  
   const imagePreview = (fileBlob) =>{
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
@@ -60,7 +48,14 @@ const ProductRegistration = () => {
     })
   }
 
-  
+  const imageUpLoad = (e)=> {
+    imagePreview(e.target.files[0]);
+    setImageFile(e.target.files[0]);
+    setPost({
+      ...post,
+      file: e.target.files[0],
+    })
+  }
 
 
   const onChangeHandler = (event) => {
@@ -70,7 +65,7 @@ const ProductRegistration = () => {
       [name] : value,
     })
   };
-  
+
   console.log("post", post);
 
   return (
@@ -86,7 +81,6 @@ const ProductRegistration = () => {
         <StContainer>
           <StForm
           onSubmit={(event) => {
-            console.log("submit");
             event.preventDefault();
             if (
               post.name.trim() === "" ||
@@ -96,7 +90,6 @@ const ProductRegistration = () => {
               return alert("모든 항목을 입력해주세요.");
             }
             dispatch(__addPostThunk(post));
-            console.log("submit2");
             setPost({ name: "", price: "", description: "" });
             navigate("/")
           }}

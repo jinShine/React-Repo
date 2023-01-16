@@ -6,21 +6,24 @@ import { authInstance, defaultInstance } from "../../shared/api";
 export const __addPostThunk = createAsyncThunk(
   "ADD_POST",
   async (payload, thunkAPI) => {
+    console.log("pay", payload);
     const formData = new FormData();
-    console.log("1form", formData);
+
     const request = {
       name: payload.name,
       description: payload.description,
       price: payload.price,
     };
-    console.log("re", request);
-    const json = JSON.stringify(request);
-    const blob = new Blob([json], { type: "application/json" });
-    console.log("blob", blob);
+    console.log(request);
+    // const json = JSON.stringify(request);
+    // const blob = new Blob([json], { type: "application/json" });
 
+    formData.append("name", payload.name);
+    console.log("form", formData);
+    formData.append("description", payload.description);
+    formData.append("price", payload.price);
     formData.append("file", payload.file);
-    console.log("file", payload.file);
-    formData.append("request", blob);
+    // formData.append("request", blob);
     console.log("form", formData);
 
     try {

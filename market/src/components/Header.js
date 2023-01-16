@@ -1,13 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const { pathname } = window.location;
+
   return (
     <StContainer>
       <div>
         <img src="img/fleamarket.png" />
       </div>
-      <div>안녕하세요</div>
+      {pathname === "/" && (
+        <>
+          <button onClick={() => navigate("/signin")}>로그인</button>
+          <button onClick={() => navigate("/product-registration")}>
+            상품등록
+          </button>
+        </>
+      )}
     </StContainer>
   );
 };
