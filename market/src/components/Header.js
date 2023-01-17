@@ -10,7 +10,7 @@ const Header = () => {
 
   return (
     <StContainer>
-      <div>
+      <div onClick={() => navigate("/")}>
         <img src="img/fleamarket2.png" />
       </div>
       {pathname === "/" && (
@@ -51,6 +51,7 @@ const StContainer = styled.div`
   & > div > img {
     width: 80px;
     height: 80px;
+    cursor: pointer;
   }
 `;
 
