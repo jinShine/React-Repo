@@ -6,33 +6,76 @@ import { authInstance, defaultInstance } from "../../shared/api";
 export const __addPostThunk = createAsyncThunk(
   "ADD_POST",
   async (payload, thunkAPI) => {
-    // const formData = new FormData();
+    const formData = new FormData();
 
     // const request = {
     //   name: payload.name,
     //   description: payload.description,
     //   price: payload.price,
     // };
-    // console.log(request);
+
     // const json = JSON.stringify(request);
     // const blob = new Blob([json], { type: "application/json" });
 
-    // formData.append("name", payload.name);
-    // console.log("form", formData);
-    // formData.append("description", payload.description);
-    // formData.append("price", payload.price);
-    // formData.append("file", payload.file);
+    formData.append("name", payload.name);
+    formData.append("description", payload.description);
+    formData.append("price", payload.price);
+    formData.append("category", payload.category);
+    formData.append("image_url", payload.image_url);
     // formData.append("request", blob);
 
     try {
-      const { data } = await defaultInstance.post(
-        `/posts`,
-        payload
-        // , formData, {
-        //   headers: {
-        //     "Content-Type": "multipart/form-data",
-        //   },
-        // }
+      const { data } = await axios.post(
+        `http://43.201.34.54:8080/posts`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJidXp6MzMiLCJhdXRoIjoiVVNFUiIsImV4cCI6MTY3Mzk2NTgyOCwiaWF0IjoxNjczOTYyMjI4fQ.xHvsgH0967ai0BoFuixvxHF0eoMw8Xc2-qoiK8dTRlw",
+          },
+          // params: {
+          //   page: 1,
+          //   size: 10,
+          //   isAsc: true,
+          //   sortBy: "id",
+          // },
+        }
+      );
+
+      // for (var key of formData.keys()) {
+      //   console.log(key);
+      // }
+      // for (var value of formData.values()) {
+      //   console.log(value);
+      // }
+
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+///////// 이미지 업로드 thunk,POST ///////////////////
+export const __addProductImgPostThunk = createAsyncThunk(
+  "ADD_PRODUCT_IMG_POST",
+  async (payload, thunkAPI) => {
+    const formData = new FormData();
+
+    formData.append("file", payload.file);
+
+    try {
+      const { data } = await axios.post(
+        `http://43.201.34.54:8080/files/image`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dGU0ISEiLCJhdXRoIjoiVVNFUiIsImV4cCI6MTY3Mzk3MTkyNywiaWF0IjoxNjczOTY4MzI3fQ.J3POP6SstOzeVLFfrQgG7urpbG-nadac4OSrbAtBL94",
+          },
+        }
       );
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
@@ -100,6 +143,17 @@ export const productSlice = createSlice({
       state.post_list = [...state.post_list, action.payload];
     },
     [__addPostThunk.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [__addProductImgPostThunk.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__addProductImgPostThunk.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      // state.post_list = [...state.post_list, action.payload];
+    },
+    [__addProductImgPostThunk.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },

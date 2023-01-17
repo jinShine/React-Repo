@@ -9,7 +9,7 @@ const axiosApi = (url, options) => {
 // post, delete등 api요청 시 인증값이 필요한 경우
 const axiosAuthApi = (url, options) => {
   const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiYXV0aCI6IlVTRVIiLCJleHAiOjE2NzM3NzY3MjEsImlhdCI6MTY3Mzc3MzEyMX0.Q4iaLboAAE0l4LjHsVyICQcLU_B62B1R5x97z0YS5ec";
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiYXV0aCI6IlVTRVIiLCJleHAiOjE2NzM5NTUwNjIsImlhdCI6MTY3Mzk1MTQ2Mn0.Tw9Y7vJehJUm_qxjeNZmGAynyHamoGSUn6UNKImnE0Q";
   const instance = axios.create({
     baseURL: url,
     headers: { Authorization: "Bearer " + token },
@@ -43,7 +43,7 @@ axios.interceptors.response.use(
   function (error) {
     // Status Code 200범위 밖, 즉 실패했을때
     if (error.response.status === 401 || error.response.satus === 406) {
-      window.location.href = "/signin";
+      // window.location.href = "/signin";
     }
     if (error.response.status === 403) {
       window.alert("권한이 없는 사용자입니다.");

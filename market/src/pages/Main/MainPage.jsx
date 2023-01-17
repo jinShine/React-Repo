@@ -12,6 +12,7 @@ const MainPage = () => {
   const dispatch = useDispatch();
 
   const {post_list} = useSelector((state) => state.post);
+  console.log(post_list)
 
   const [modal, setModal] = useState();
 

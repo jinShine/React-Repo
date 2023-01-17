@@ -15,26 +15,23 @@ import { FormControl } from "@mui/material";
 import { __addPostThunk } from "../../redux/modules/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { gTheme } from "../../theme/globalTheme";
+import { __addProductImgPostThunk } from "../../redux/modules/productSlice";
 
 
 const ProductRegistration = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [age, setAge] = useState('');
-
-  const handleChange = (e) => {
-    setAge(e.target.value)};
-    
+  
   const [post, setPost] = useState({
     name: "",
     description: "",
     price: "",
-    file: "",
+    category: "",
   });
 
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("https://images.unsplash.com/photo-1600078307129-97e9d51d19cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=976&q=80");
   const [imageFile, setImageFile] = useState("");
 
 
@@ -49,25 +46,50 @@ const ProductRegistration = () => {
     })
   }
 
-  const imageUpLoad = (e)=> {
+  const imageUpLoad = async (e)=> {
     imagePreview(e.target.files[0]);
     setImageFile(e.target.files[0]);
-    setPost({
-      ...post,
+    const imgFile = {
       file: e.target.files[0],
-    })
-  }
+    }
+    console.log(imgFile)
+    dispatch(__addProductImgPostThunk(imgFile));
+  
+    // while(true){
+    //   setTimeout(() => {
+	  //     console.log(imageFile)
+    //     }, 1000)
+    // };
+  };
+  
 
+  // setPost({
+  //   ...post,
+  //   image_url: e.target.files[0],
+  // })
+  
+
+  const [category, setCategory] = useState('');
+
+  // const handleChange = (e) => {
+  //   setCategory(e.target.value);
+  //   console.log(category);
+  // };
 
   const onChangeHandler = (event) => {
     const {name, value} = event.target;
     setPost({
       ...post,
       [name] : value,
+      category: category,
     })
   };
 
-  console.log("post", post);
+  const handleDelete = () => {
+    setImage("https://images.unsplash.com/photo-1600078307129-97e9d51d19cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=976&q=80");
+  };
+  
+
 
   return (
     <Layout>
@@ -92,6 +114,7 @@ const ProductRegistration = () => {
               return alert("모든 항목을 입력해주세요.");
             }
             dispatch(__addPostThunk(post));
+            console.log(post)
             setPost({ name: "", price: "", description: "" });
             navigate("/")
           }}
@@ -123,21 +146,25 @@ const ProductRegistration = () => {
 
             
               
-              {/* select box */}
+              {/* 카테고리 select box */}
               <FormControl variant="standard" fullWidth>
               <InputLabel id="demo-simple-select-standard-label">카 테 고 리</InputLabel>
           
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                value={age}
+                value={category}
                 label="category"
-                onChange={handleChange}
-                
+                onChange={(e) => setCategory(e.target.value)}
                 >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={"디지털 기기"}>디지털 기기</MenuItem>
+                <MenuItem value={"생활 가전"}>생활 가전</MenuItem>
+                <MenuItem value={"의류"}>의류</MenuItem>
+                <MenuItem value={"잡화"}>잡화</MenuItem>
+                <MenuItem value={"도서"}>도서</MenuItem>
+                <MenuItem value={"식품"}>식품</MenuItem>
+                <MenuItem value={"식물"}>식물</MenuItem>
+                <MenuItem value={"기타"}>기타</MenuItem>
               </Select>
               </FormControl>
             
@@ -156,6 +183,7 @@ const ProductRegistration = () => {
               {/* </StInputdiv> */}
           </StInputBox>
 
+          
 
           {/* 이미지 등록 구역 div */}
           <StImgBox>
@@ -169,7 +197,12 @@ const ProductRegistration = () => {
                         Upload
                 <input hidden accept="image/*" multiple type="file" onChange={imageUpLoad}/>
               </Button>
-              <Button variant="contained" startIcon={<DeleteIcon />} sx={{ bgcolor: gTheme.color.primary }}>
+              <Button 
+              variant="contained" 
+              startIcon={<DeleteIcon />}
+              sx={{ bgcolor: gTheme.color.primary }}
+              onClick={handleDelete}
+              >
                    Delete
               </Button>
             </div>
