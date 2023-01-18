@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const Card = ({ post }) => {
   const navigate = useNavigate();
@@ -8,11 +11,19 @@ const Card = ({ post }) => {
   //   onClick={() => {
   //     navigate(`/guestbooks/${guestbook.id}`);
   //   }}
+  const { post_list } = useSelector((state) => state.post);
+  console.log(post);
+  // const productData = useSelector((state) => state.file.fileData);
+  // const [imageURL, setImageURL] = useState("");
+
+  // useEffect(() => {
+  //   setImageURL(productData.url);
+  // }, [productData]);
 
   return (
     <StCard>
       <StImgContainer>
-        <div>이미지 구역</div>
+        <img src={post.imageUrl} />
       </StImgContainer>
       <StTextContainer>
         <div>{post.name}</div>

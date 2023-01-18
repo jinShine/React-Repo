@@ -14,6 +14,7 @@ const MainPage = () => {
   const {post_list} = useSelector((state) => state.post);
   console.log(post_list)
 
+
   const [modal, setModal] = useState();
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const MainPage = () => {
         </StHalves>
         <StPost>
           {post_list.map((post) => (
-              <Card key={post.id} post={post}/>
+              <Card key={post.id} post={post} />
           ))}
         </StPost>
       

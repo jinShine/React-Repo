@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fileAPI } from "../../shared/fileAPI";
+import { fileAPI } from "../../shared/api/fileAPI";
 
 export const actionType = {
   file: {

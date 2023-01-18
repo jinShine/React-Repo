@@ -1,4 +1,4 @@
-import React ,{useState}from "react";
+import React ,{useState , useEffect}from "react";
 import { useNavigate } from "react-router-dom";
 // import { useDispatch } from "react-redux";
 import Layout from "../../components/Layout";
@@ -16,20 +16,38 @@ import { __addPostThunk } from "../../redux/modules/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { gTheme } from "../../theme/globalTheme";
 import { __addProductImgPostThunk } from "../../redux/modules/productSlice";
+import { __productImageUpload } from "../../redux/modules/fileSlice";
 
 
 const ProductRegistration = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   
+  const productData = useSelector((state) => state.file.fileData);
+  const [imageURL, setImageURL] = useState("");
+
+  useEffect(() => {
+    setImageURL(productData.url);
+  }, [productData]);
+ 
+
+
+
+  // useEffect(() => {
+  //   setImageURL("https://images.unsplash.com/photo-1600078307129-97e9d51d19cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=976&q=80");
+  // }, [post.name]);
+
+
   const [post, setPost] = useState({
-    name: "",
-    description: "",
-    price: "",
     category: "",
+    description: "",
+    imageResponseDto : productData,
+    name: "",
+    price: "",
   });
 
+
+  const [category, setCategory] = useState('');
 
   const [image, setImage] = useState("https://images.unsplash.com/photo-1600078307129-97e9d51d19cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=976&q=80");
   const [imageFile, setImageFile] = useState("");
@@ -49,32 +67,13 @@ const ProductRegistration = () => {
   const imageUpLoad = async (e)=> {
     imagePreview(e.target.files[0]);
     setImageFile(e.target.files[0]);
-    const imgFile = {
-      file: e.target.files[0],
-    }
-    console.log(imgFile)
-    dispatch(__addProductImgPostThunk(imgFile));
-  
-    // while(true){
-    //   setTimeout(() => {
-	  //     console.log(imageFile)
-    //     }, 1000)
-    // };
+    const imgFile = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", imgFile);
+    dispatch(__productImageUpload(formData));
   };
-  
 
-  // setPost({
-  //   ...post,
-  //   image_url: e.target.files[0],
-  // })
-  
 
-  const [category, setCategory] = useState('');
-
-  // const handleChange = (e) => {
-  //   setCategory(e.target.value);
-  //   console.log(category);
-  // };
 
   const onChangeHandler = (event) => {
     const {name, value} = event.target;
@@ -113,8 +112,8 @@ const ProductRegistration = () => {
             ) {
               return alert("모든 항목을 입력해주세요.");
             }
-            dispatch(__addPostThunk(post));
             console.log(post)
+            dispatch(__addPostThunk(post));
             setPost({ name: "", price: "", description: "" });
             navigate("/")
           }}
