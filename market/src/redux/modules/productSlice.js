@@ -118,7 +118,7 @@ export const __getPostThunk = createAsyncThunk(
           },
           params: {
             page: 1,
-            size: 30,
+            size: 100,
             isAsc: false,
             sortBy: "id",
           },

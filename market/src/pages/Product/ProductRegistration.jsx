@@ -24,33 +24,36 @@ const ProductRegistration = () => {
   const dispatch = useDispatch();
   
   const productData = useSelector((state) => state.file.fileData);
+  console.log(productData);
   const [imageURL, setImageURL] = useState("");
 
-  useEffect(() => {
-    setImageURL(productData.url);
-  }, [productData]);
- 
-
-
-
-  // useEffect(() => {
-  //   setImageURL("https://images.unsplash.com/photo-1600078307129-97e9d51d19cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=976&q=80");
-  // }, [post.name]);
-
+  const [category, setCategory] = useState('');
+  const [image, setImage] = useState("img/base_img.png");
+  const [imageFile, setImageFile] = useState("");
 
   const [post, setPost] = useState({
     category: "",
     description: "",
-    imageResponseDto : productData,
+    imageResponseDto : "",
     name: "",
     price: "",
   });
 
 
-  const [category, setCategory] = useState('');
+  useEffect(() => {
+    setImageURL(productData.url);
+    setPost({
+      ...post,
+      imageResponseDto : productData,
+    })
+  }, [productData]);
+ 
 
-  const [image, setImage] = useState("https://images.unsplash.com/photo-1600078307129-97e9d51d19cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=976&q=80");
-  const [imageFile, setImageFile] = useState("");
+
+
+  
+
+  
 
 
   const imagePreview = (fileBlob) =>{
@@ -85,7 +88,11 @@ const ProductRegistration = () => {
   };
 
   const handleDelete = () => {
-    setImage("https://images.unsplash.com/photo-1600078307129-97e9d51d19cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=976&q=80");
+    setImage("img/base_img.png");
+    setPost({
+      ...post,
+      imageResponseDto : null,
+    });
   };
   
 
@@ -289,6 +296,7 @@ const ViewImg = styled.div`
   img{
   width: 100%;
   height: 100%;
+  object-fit: cover;
   }
 `;
 

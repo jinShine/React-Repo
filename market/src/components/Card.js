@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Card = ({ post }) => {
   const navigate = useNavigate();
@@ -11,7 +12,6 @@ const Card = ({ post }) => {
   //   onClick={() => {
   //     navigate(`/guestbooks/${guestbook.id}`);
   //   }}
-  const { post_list } = useSelector((state) => state.post);
   console.log(post);
   // const productData = useSelector((state) => state.file.fileData);
   // const [imageURL, setImageURL] = useState("");
@@ -21,25 +21,31 @@ const Card = ({ post }) => {
   // }, [productData]);
 
   return (
-    <StCard>
-      <StImgContainer>
-        <img src={post.imageUrl} />
-      </StImgContainer>
-      <StTextContainer>
-        <div>{post.name}</div>
-        <div>
-          {post.price
-            .toString()
-            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
-          원
-        </div>
-        <div>댓글 갯수</div>
-      </StTextContainer>
-    </StCard>
+    <StLink to={`/${post.id}`} key={post.id}>
+      <StCard>
+        <StImgContainer>
+          <img src={post.imageUrl} />
+        </StImgContainer>
+        <StTextContainer>
+          <div>{post.name}</div>
+          <div>
+            {post.price
+              .toString()
+              .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
+            원
+          </div>
+          <div>댓글 갯수</div>
+        </StTextContainer>
+      </StCard>
+    </StLink>
   );
 };
 
 export default Card;
+
+const StLink = styled(Link)`
+  text-decoration: none;
+`;
 
 const StCard = styled.div`
   color: #333333;
@@ -48,11 +54,16 @@ const StCard = styled.div`
 `;
 
 const StImgContainer = styled.div`
-  border: 1px solid lightblue;
   width: 90%;
   height: 230px;
   margin: 0 auto;
   border-radius: 15px;
+  & > img {
+    width: 90%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+  }
 `;
 
 const StTextContainer = styled.div`

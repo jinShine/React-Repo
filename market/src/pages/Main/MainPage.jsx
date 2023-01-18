@@ -34,9 +34,12 @@ const MainPage = () => {
           </StHalves_half>
         </StHalves>
         <StPost>
-          {post_list.map((post) => (
+          
+          {post_list.map((post) => {
+            console.log("post", post)
+            return (
               <Card key={post.id} post={post} />
-          ))}
+          )})}
         </StPost>
       
     </Layout>
