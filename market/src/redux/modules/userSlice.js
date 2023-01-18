@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { client } from "../../shared/api/api";
 import { authAPI } from "../../shared/api/authAPI";
+import { COMMON_DEALY_TIME, gDelay } from "../../shared/utils/delay";
+import { tokenManager } from "../../shared/utils/tokenManager";
 
 export const actionType = {
   user: {
@@ -13,6 +15,7 @@ export const actionType = {
 };
 
 const initialState = {
+  isSuccess: false,
   isLoading: false,
   error: null,
 };
@@ -21,20 +24,13 @@ const initialState = {
 export const __signup = createAsyncThunk(
   actionType.user.POST_SIGNUP,
   async (user, thunkAPI) => {
+    await gDelay(COMMON_DEALY_TIME);
     try {
-      // console.log("111", client);
       const result = await authAPI.post(
         process.env.REACT_APP_BASE_URL + "/api/user/signup",
-        {
-          username: "buzz111111",
-          password: "qwer1234",
-          passwordCheck: "qwer1234",
-          nickname: "test",
-          imageResponseDto: {},
-        }
+        user
       );
 
-      console.log("RESULT!!:", result);
       return thunkAPI.fulfillWithValue(result.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -46,12 +42,13 @@ export const __signup = createAsyncThunk(
 export const __signin = createAsyncThunk(
   actionType.user.POST_SIGNIN,
   async (user, thunkAPI) => {
+    await gDelay(COMMON_DEALY_TIME);
     try {
       const result = await client.post(
         process.env.REACT_APP_BASE_URL + "/api/user/login",
         user
       );
-      return thunkAPI.fulfillWithValue(result);
+      return thunkAPI.fulfillWithValue(result.headers.authorization);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -76,7 +73,13 @@ export const __userInfo = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    __userReset: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // 회원가입
@@ -84,23 +87,28 @@ const userSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(__signup.fulfilled, (state, action) => {
+        state.isSuccess = true;
         state.isLoading = false;
-        console.log("action", action);
+        console.log(action);
       })
       .addCase(__signup.rejected, (state, action) => {
+        state.isSuccess = false;
         state.isLoading = false;
-        // state.error = action.payload;
+        state.error = action.payload.response.data.errorMessage;
       })
       // 로그인
       .addCase(__signin.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(__signin.fulfilled, (state, action) => {
+        state.isSuccess = true;
         state.isLoading = false;
+        tokenManager.token = action.payload;
       })
       .addCase(__signin.rejected, (state, action) => {
+        state.isSuccess = false;
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload.response.data.errorMessage;
       })
       // 유저 정보
       .addCase(__userInfo.pending, (state) => {
@@ -116,5 +124,5 @@ const userSlice = createSlice({
   },
 });
 
-export const {} = userSlice.actions;
+export const { __userReset } = userSlice.actions;
 export default userSlice.reducer;

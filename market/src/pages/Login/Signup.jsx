@@ -1,28 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  __fileReset,
+  __profileImageUpload,
+} from "../../redux/modules/fileSlice";
+import { __signup, __userReset } from "../../redux/modules/userSlice";
 import { gTheme } from "../../theme/globalTheme";
 
 import { TextField } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { __signup } from "../../redux/modules/userSlice";
-import { __profileImageUpload } from "../../redux/modules/fileSlice";
+import { AlertView } from "../../components/ui/Alert";
+import { Loading } from "../../components/ui/Loading";
+import { COMMON_DEALY_TIME } from "../../shared/utils/delay";
 
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const profileData = useSelector((state) => state.file.fileData);
-  const { register, watch, handleSubmit } = useForm();
-  const [imageURL, setImageURL] = useState("/img/default_profile.png");
+  const { fileData } = useSelector((state) => state.file);
+  const { isSuccess, isLoading, error } = useSelector((state) => state.user);
+  const { register, handleSubmit } = useForm();
+  const [alertMessage, setAlertMessage] = useState({ type: "", message: "" });
 
   useEffect(() => {
-    setImageURL(profileData.url);
-  }, [profileData]);
+    setAlertMessage({ type: "error", message: error });
+
+    handleSuccess();
+  }, [fileData, error, isSuccess]);
 
   const handleSignup = (user) => {
+    user.imageResponseDto = fileData;
     dispatch(__signup(user));
   };
 
@@ -34,16 +44,33 @@ const Signup = () => {
     const img = e.target.files[0];
     const formData = new FormData();
     formData.append("file", img);
+
     dispatch(__profileImageUpload(formData));
+  };
+
+  const handleSuccess = () => {
+    if (isSuccess) {
+      setAlertMessage({ type: "success", message: "가입 성공🎉" });
+
+      setTimeout(() => {
+        dispatch(__userReset());
+        dispatch(__fileReset());
+
+        navigate("/signin");
+      }, COMMON_DEALY_TIME);
+    }
   };
 
   return (
     <SWrapper>
       <SCard>
+        {alertMessage.message && (
+          <AlertView type={alertMessage.type} message={alertMessage.message} />
+        )}
         <STitleContainer>
           <STitle>회원가입</STitle>
           <Button component="label">
-            <Avatar src={imageURL} sx={{ width: 80, height: 80 }} />
+            <Avatar src={fileData.url} sx={{ width: 80, height: 80 }} />
             <input
               hidden
               accept="image/*"
@@ -97,6 +124,7 @@ const Signup = () => {
             autoComplete="nickname"
             {...register("nickname", {})}
           />
+          <SLoadingContainer>{isLoading && <Loading />}</SLoadingContainer>
           <SButton
             type="submit"
             fullWidth
@@ -125,11 +153,19 @@ export default Signup;
 
 const SWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100vh;
   margin: auto;
+`;
+
+const SLoadingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SCard = styled.div`

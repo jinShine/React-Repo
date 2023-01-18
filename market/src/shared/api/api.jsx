@@ -1,4 +1,5 @@
 import axios from "axios";
+import { tokenManager } from "../utils/tokenManager";
 
 // 테스트용
 const AUTH_TOKEN =
@@ -14,7 +15,9 @@ export const client = axios.create({
 
 client.defaults.withCredentials = true;
 client.defaults.headers.post["Content-Type"] = "application/json";
-client.defaults.headers.common["Authorization"] = `Bearer ${AUTH_TOKEN}`;
+client.defaults.headers.common[
+  "Authorization"
+] = `Bearer ${tokenManager.token}`;
 
 /* interceptors */
 client.interceptors.response.use(

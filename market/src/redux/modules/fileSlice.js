@@ -51,7 +51,13 @@ export const __productImageUpload = createAsyncThunk(
 const fileSlice = createSlice({
   name: "file",
   initialState,
-  reducers: {},
+  reducers: {
+    __fileReset: (state, action) => {
+      state.fileData = {};
+      state.isLoading = false;
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // 프로필 업로드
@@ -81,5 +87,5 @@ const fileSlice = createSlice({
   },
 });
 
-export const {} = fileSlice.actions;
+export const { __fileReset } = fileSlice.actions;
 export default fileSlice.reducer;

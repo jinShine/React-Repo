@@ -1,18 +1,17 @@
 import React from "react";
 import { Alert } from "@mui/material";
 
-export const AlertSuccess = ({ message }) => {
-  return <Alert severity="success">message</Alert>;
-};
+/* Types 
 
-export const AlertWarning = ({ message }) => {
-  return <Alert severity="warning">message</Alert>;
-};
-
-export const AlertInfo = ({ message }) => {
-  return <Alert severity="info">message</Alert>;
-};
-
-export const AlertError = ({ message }) => {
-  return <Alert severity="error">message</Alert>;
+  * success
+  * warning
+  * info
+  * error
+*/
+export const AlertView = ({ type, message }) => {
+  return (
+    <Alert severity={type} sx={{ width: "100%" }}>
+      {message}
+    </Alert>
+  );
 };

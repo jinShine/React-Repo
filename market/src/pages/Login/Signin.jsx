@@ -1,30 +1,53 @@
-import React from "react";
-import { gTheme } from "../../theme/globalTheme";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { __signin } from "../../redux/modules/userSlice";
+import { gTheme } from "../../theme/globalTheme";
 
-import styled from "styled-components";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { TextField } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import styled from "styled-components";
+import { AlertView } from "../../components/ui/Alert";
+import { Loading } from "../../components/ui/Loading";
 
 const Signin = () => {
   const navigate = useNavigate();
-  const { register, watch, handleSubmit } = useForm();
+  const dispatch = useDispatch();
 
-  console.log(watch(), "watch");
+  const { register, handleSubmit } = useForm();
+  const { isSuccess, isLoading, error } = useSelector((state) => state.user);
+  const [alertMessage, setAlertMessage] = useState({ type: "", message: "" });
 
-  const handleLogin = (data) => {
-    console.log(data);
+  useEffect(() => {
+    setAlertMessage({ type: "error", message: error });
+
+    handleSuccess();
+  }, [error, isSuccess]);
+
+  const handleLogin = (user) => {
+    dispatch(__signin(user));
   };
+
   const handleError = (error) => {
     console.log(error);
+  };
+
+  const handleSuccess = () => {
+    if (isSuccess) {
+      setAlertMessage({});
+      navigate("/");
+    }
   };
 
   return (
     <SWrapper>
       <SCard>
+        {alertMessage.message && (
+          <AlertView type={alertMessage.type} message={alertMessage.message} />
+        )}
         <STitleContainer>
           <Avatar sx={{ bgcolor: gTheme.color.primary }}>
             <LockOutlinedIcon />
@@ -41,9 +64,7 @@ const Signin = () => {
             name="id"
             autoComplete="id"
             autoFocus
-            {...register("signin-id", {
-              minLength: { value: 5, message: "테스트" },
-            })}
+            {...register("username")}
           />
           <TextField
             margin="normal"
@@ -56,6 +77,7 @@ const Signin = () => {
             autoComplete="current-password"
             {...register("password", {})}
           />
+          <SLoadingContainer>{isLoading && <Loading />}</SLoadingContainer>
           <SButton
             type="submit"
             fullWidth
@@ -89,6 +111,13 @@ const SWrapper = styled.div`
   width: 100%;
   height: 100vh;
   margin: auto;
+`;
+
+const SLoadingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SCard = styled.div`
