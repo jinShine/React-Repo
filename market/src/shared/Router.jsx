@@ -1,12 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NotFound from "../pages/error/NotFound";
+import MainPage from "../pages/main/MainPage";
 import Signin from "../pages/login/Signin";
 import Signout from "../pages/login/Signout";
 import Signup from "../pages/login/Signup";
-import MainPage from "../pages/main/MainPage";
 import ProductRegistration from "../pages/product/ProductRegistration";
-import ProductDetail from "../pages/product/detail/ProductDetail"
-
+import ProductDetail from "../pages/product/detail/ProductDetail";
+import NotFound from "../pages/error/NotFound";
 
 const Router = () => {
   return (
