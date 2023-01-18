@@ -23,7 +23,9 @@ const Router = () => {
           path={"/product-registration"}
           element={<ProductRegistration />}
         />
-        <Route path={"/product-detail"} element={<ProductDetail />} />
+        <Route path={"/product-detail"}>
+          <Route path={":productId"} element={<ProductDetail />} />
+        </Route>
         {/* Error */}
         <Route path="*" element={<NotFound />} />
       </Routes>

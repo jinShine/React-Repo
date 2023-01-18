@@ -21,7 +21,7 @@ const Card = ({ post }) => {
   // }, [productData]);
 
   return (
-    <StLink to={`/${post.id}`} key={post.id}>
+    <StLink to={`/product-detail/${post.id}`} key={post.id}>
       <StCard>
         <StImgContainer>
           <img src={post.imageUrl} />
