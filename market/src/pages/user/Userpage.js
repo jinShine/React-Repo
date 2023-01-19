@@ -46,7 +46,6 @@ const Userpage = () => {
   };
 
   const logoutSubmit = () => {};
-  console.log(...register);
 
   return (
     <Layout>

@@ -26,7 +26,6 @@ const ProductRegistration = () => {
   
   const productData = useSelector((state) => state.file.fileData);
   
-  console.log(productData);
 
   
   

@@ -3,6 +3,7 @@ import axios from "axios";
 import { authInstance, client, defaultInstance } from "../../shared/api/api";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { authAPI } from "../../shared/api/authAPI";
 
 /* Action Type */
 export const actionType = {
@@ -52,31 +53,17 @@ export const __addPostThunk = createAsyncThunk(
     // console.log(newPayload);
 
     try {
-      const { data } = await axios.post(
-        `http://43.201.34.54:8080/posts`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dGVzdEBAIiwiYXV0aCI6IlVTRVIiLCJleHAiOjE2NzQwNjM0MDQsImlhdCI6MTY3NDAyMDIwNH0.TFVHChWI4H3QCXmdMW2YB3ez_nLhuQeZnDkTNlrnNlo",
-          },
-          // params: {
-          //   page: 1,
-          //   size: 10,
-          //   isAsc: true,
-          //   sortBy: "id",
-          // },
-        }
+      const { data } = await client.post(
+        process.env.REACT_APP_BASE_URL + "/posts",
+        payload
       );
-      console.log("data", data);
       // for (var key of formData.keys()) {
       //   console.log(key);
       // }
       // for (var value of formData.values()) {
       //   console.log(value);
       // }
-
+      console.log(payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -121,8 +108,6 @@ export const __getPostThunk = createAsyncThunk(
         {
           headers: {
             "Content-Type": "application/json",
-            // Authorization:
-            //   "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJidXp6IiwiYXV0aCI6IlVTRVIiLCJleHAiOjE2NzM5NDUzMTEsImlhdCI6MTY3Mzk0MTcxMX0.RPFBk53OaCwL7dfwuZth3ulMI5pS0X1q5h3ltFSm77I",
           },
           params: {
             page: 1,
