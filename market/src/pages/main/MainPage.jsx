@@ -6,26 +6,35 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card";
 import styled from "styled-components";
 import { __getPostThunk } from "../../redux/modules/productSlice";
+import { __userInfo } from "../../redux/modules/userSlice";
 
 const MainPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {nickName} = useSelector((state) => state.user);
 
   const {post_list} = useSelector((state) => state.post);
-  console.log(post_list)
 
 
-  const [modal, setModal] = useState();
+
 
   useEffect(() => {
     dispatch(__getPostThunk());
   }, [dispatch]);
 
+  useEffect(()=> {
+    dispatch(__userInfo());
+  }, [])
+  
+
 
   return (
     <Layout>
 
-      <Header setModal={setModal}/>
+      <Header/>
+        <StUsername>
+          <div>{nickName}님 안녕하세요.</div>
+        </StUsername>
         <StHalves>
           <img src="img/clem.jpg"/>
           <StHalves_half>
@@ -36,7 +45,6 @@ const MainPage = () => {
         <StPost>
           
           {post_list.map((post) => {
-            console.log("post", post)
             return (
               <Card key={post.id} post={post} />
           )})}
@@ -48,12 +56,23 @@ const MainPage = () => {
 
 export default MainPage;
 
+const StUsername = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 20px 50px 20px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333333;
+`;
+
+
 const StHalves = styled.div`
   display: flex;
   margin: 50px 0;
   img {
     flex: 1 1 50%;
      width: 50%;
+     border-radius: 20px 0px 0px 20px;
   }
 `;
 
@@ -64,6 +83,7 @@ const StHalves_half = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  border-radius: 0px 20px 20px 0px;
   p {
     font-size: 30px;
     color: #005691;

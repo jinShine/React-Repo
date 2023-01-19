@@ -18,6 +18,9 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   error: null,
+  userName: "",
+  nickName: "",
+  imgUrl: "",
 };
 
 /* 회원가입 */
@@ -63,7 +66,26 @@ export const __userInfo = createAsyncThunk(
       const result = await client.get(
         process.env.REACT_APP_BASE_URL + "/api/user/info"
       );
-      return thunkAPI.fulfillWithValue(result);
+      console.log(result.data);
+      return thunkAPI.fulfillWithValue(result.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+/* 비번 변경 */
+export const __changePassword = createAsyncThunk(
+  actionType.user.PUT_CHANGE_PASSWORD,
+  async (user, thunkAPI) => {
+    await gDelay(COMMON_DEALY_TIME);
+    try {
+      const result = await client.put(
+        process.env.REACT_APP_BASE_URL + `/api/user/changepw/${user.username}`,
+        user
+      );
+      console.log(result.data);
+      return thunkAPI.fulfillWithValue(result.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -116,10 +138,27 @@ const userSlice = createSlice({
       })
       .addCase(__userInfo.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.userName = action.payload.username;
+        state.nickName = action.payload.nickname;
+        state.imgUrl = action.payload.imgurl;
       })
       .addCase(__userInfo.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      // 비번 변경
+      .addCase(__changePassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__changePassword.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        state.isLoading = false;
+        console.log(action);
+      })
+      .addCase(__changePassword.rejected, (state, action) => {
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.error = action.payload.response.data.errorMessage;
       });
   },
 });

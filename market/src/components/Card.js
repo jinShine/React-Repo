@@ -12,7 +12,10 @@ const Card = ({ post }) => {
   //   onClick={() => {
   //     navigate(`/guestbooks/${guestbook.id}`);
   //   }}
-  console.log(post);
+
+  // 콘솔 로그 post
+  // console.log(post);
+
   // const productData = useSelector((state) => state.file.fileData);
   // const [imageURL, setImageURL] = useState("");
 

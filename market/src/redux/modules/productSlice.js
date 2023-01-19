@@ -109,12 +109,12 @@ export const __getPostThunk = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await client.get(
-        `/posts`,
+        `/posts/get`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dGVzdEBAIiwiYXV0aCI6IlVTRVIiLCJleHAiOjE2NzQwNjM0MDQsImlhdCI6MTY3NDAyMDIwNH0.TFVHChWI4H3QCXmdMW2YB3ez_nLhuQeZnDkTNlrnNlo",
+            // Authorization:
+            //   "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJidXp6IiwiYXV0aCI6IlVTRVIiLCJleHAiOjE2NzM5NDUzMTEsImlhdCI6MTY3Mzk0MTcxMX0.RPFBk53OaCwL7dfwuZth3ulMI5pS0X1q5h3ltFSm77I",
           },
           params: {
             page: 1,

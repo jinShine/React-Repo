@@ -5,6 +5,7 @@ import Signout from "../pages/login/Signout";
 import Signup from "../pages/login/Signup";
 import ProductRegistration from "../pages/product/ProductRegistration";
 import ProductDetail from "../pages/product/detail/ProductDetail";
+import Userpage from "../pages/user/Userpage";
 import NotFound from "../pages/error/NotFound";
 
 const Router = () => {
@@ -25,6 +26,8 @@ const Router = () => {
         <Route path={"/product-detail"}>
           <Route path={":productId"} element={<ProductDetail />} />
         </Route>
+        {/* Product */}
+        <Route path={"/userpage"} element={<Userpage />}/>
         {/* Error */}
         <Route path="*" element={<NotFound />} />
       </Routes>
