@@ -1,6 +1,6 @@
 import { Button, TextField } from "@mui/material";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import ProductCommentList from "./ProductCommentList";
 
@@ -11,64 +11,108 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { gTheme } from "../../../theme/globalTheme";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  __detailPost,
+  __productFavorite,
+} from "../../../redux/modules/productSlice";
+import { priceToString } from "../../../shared/utils/priceToString";
+import {
+  __submitComment,
+  __getComments,
+  __deleteComment,
+  __modifyComment,
+} from "../../../redux/modules/commentSlice";
 
 const ProductDetail = () => {
+  const { productId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const detailPost = useSelector((state) => state.post.detailPost);
+  const commentsData = useSelector((state) => state.comment.comments);
+  const categoryAndDateString = (detailPost) => {
+    const date = new Date(detailPost.createdAt);
+    const category = detailPost.category;
+    return `${category} • ${date.toLocaleString()}`;
+  };
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
+  const [favorite, setFavorite] = useState(false);
 
-  // 테스트
-  const comments = [
-    { id: 1, comment: "안녕하세요 1" },
-    {
-      id: 2,
-      comment:
-        "안녕하세요 2안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 안녕하세요 2안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 안녕하세요 2안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 안녕하세요 2안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 안녕하세요 2안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 안녕하세요 2안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3",
-    },
-    {
-      id: 3,
-      comment:
-        "안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3안녕하세요 3",
-    },
-  ];
+  const handleFavorite = () => {
+    setFavorite((state) => !state);
+    dispatch(__productFavorite(productId));
+  };
+
+  const onChangeComment = (e) => {
+    setComment(e.target.value);
+  };
+
+  const handleCommentSubmit = (e) => {
+    let commentData = {
+      comment: comment,
+      isReply: false,
+      referenceId: productId,
+    };
+    dispatch(__submitComment(commentData));
+    setComment("");
+  };
+
+  const handleCommentDelete = (commentId) => {
+    dispatch(__deleteComment(commentId));
+  };
+
+  const handleCommentModify = (data) => {
+    const payload = { comment: data.comment, commentId: data.commentId };
+    dispatch(__modifyComment(payload));
+  };
+
+  useEffect(() => {
+    dispatch(__detailPost(productId));
+    dispatch(__getComments(productId));
+  }, [dispatch]);
+
+  useEffect(() => {
+    setComments(commentsData);
+    setFavorite(detailPost.wishState);
+  }, [commentsData, detailPost]);
 
   return (
     <Layout>
       <SWrapper>
         <SContentContainer>
           <SImageContainer>
-            <SImage
-              src="https://image.cnet.co.kr/2022/08/25/6b4d4407b48ffc8ab2c88dfb30d2bf3d-770xAAA.png"
-              alt=""
-            />
+            <SImage src={detailPost.imageUrl} />
           </SImageContainer>
           <SUserContainer>
             <SUserInfo>
-              <SUserProfileThubnail src="/img/default_profile.png" />
-              <SUserName>김승진</SUserName>
+              <SUserProfileThubnail src={detailPost.userUrl} />
+              <SUserName>{detailPost.nickname}</SUserName>
             </SUserInfo>
             <SUserActions>
-              <IconButton sx={{ color: "lightgray" }}>
-                <EditIcon />
-              </IconButton>
-              <IconButton sx={{ color: "lightgray" }}>
-                <DeleteIcon />
+              {detailPost.state && (
+                <>
+                  <IconButton sx={{ color: "lightgray" }}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton sx={{ color: "lightgray" }}>
+                    <DeleteIcon />
+                  </IconButton>
+                </>
+              )}
+              <IconButton sx={{ color: "orange" }} onClick={handleFavorite}>
+                {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
             </SUserActions>
           </SUserContainer>
           <SDivider />
           <SProductContainer>
-            <SProductTitle>title</SProductTitle>
+            <SProductTitle>{detailPost.name}</SProductTitle>
             <SProductCategoryAndCreatedDate>
-              category • 2023년 1월 16일
+              {categoryAndDateString(detailPost)}
             </SProductCategoryAndCreatedDate>
-            <SProductPrice>15,000원</SProductPrice>
-            <SProductDescription>
-              맥북 프로 팝니다. <br />
-              2019년 구입했습니다. <br />
-              <br />
-              13.3인치 8기가 256기기입니다. <br />
-              <br />
-              적전동역 1번 출구에서 거래하면 좋겠습니다~
-            </SProductDescription>
+            <SProductPrice>{priceToString(detailPost.price)}</SProductPrice>
+            <SProductDescription>{detailPost.description}</SProductDescription>
           </SProductContainer>
           <SDivider />
           <SCommentContainer>
@@ -77,12 +121,22 @@ const ProductDetail = () => {
                 id="outlined-basic"
                 label="댓글"
                 variant="outlined"
+                value={comment}
+                onChange={onChangeComment}
               />
-              <SCommentRegistration variant="contained" sx={{ ml: 1, bgcolor: gTheme.color.primary}}>
+              <SCommentRegistration
+                variant="contained"
+                sx={{ ml: 1, bgcolor: gTheme.color.primary }}
+                onClick={handleCommentSubmit}
+              >
                 등록
               </SCommentRegistration>
             </SCommentInputContainer>
-            <ProductCommentList comments={comments} />
+            <ProductCommentList
+              comments={comments}
+              onClickDelete={handleCommentDelete}
+              onClickModify={handleCommentModify}
+            />
           </SCommentContainer>
         </SContentContainer>
       </SWrapper>

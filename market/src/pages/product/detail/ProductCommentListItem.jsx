@@ -4,6 +4,9 @@ import { Button, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CloseIcon from "@mui/icons-material/Close";
+import DoneIcon from "@mui/icons-material/Done";
+import { gTheme } from "../../../theme/globalTheme";
 
 const ProductCommentListItem = ({ comment, onClickDelete, onClickModify }) => {
   const [isModifyComment, setIsModifyComment] = useState(false);
@@ -16,7 +19,7 @@ const ProductCommentListItem = ({ comment, onClickDelete, onClickModify }) => {
 
   const onClickModifyHandler = (event) => {
     event.stopPropagation();
-    onClickModify({ id: comment.id, comment: commentText });
+    onClickModify({ comment: commentText, commentId: comment.id });
     toggleModifyComment();
   };
 
@@ -53,11 +56,17 @@ const ProductCommentListItem = ({ comment, onClickDelete, onClickModify }) => {
               onChange={onChangeModifyComment}
             />
             <>
-              <IconButton sx={{ color: "lightgray" }}>
-                <EditIcon />
+              <IconButton
+                sx={{ color: "lightgray" }}
+                onClick={onClickModifyCancel}
+              >
+                <CloseIcon />
               </IconButton>
-              <IconButton sx={{ color: "lightgray" }}>
-                <DeleteIcon />
+              <IconButton
+                sx={{ color: gTheme.color.primary }}
+                onClick={onClickModifyHandler}
+              >
+                <DoneIcon />
               </IconButton>
             </>
           </>
@@ -65,18 +74,22 @@ const ProductCommentListItem = ({ comment, onClickDelete, onClickModify }) => {
           <>
             <SContentText>{comment.comment}</SContentText>
             <SCommentActions>
-              <IconButton
-                sx={{ color: "lightgray" }}
-                onClick={onClickModifyToggleHandler}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                sx={{ color: "lightgray" }}
-                onClick={onClickDeleteHandler}
-              >
-                <DeleteIcon />
-              </IconButton>
+              {comment.state && (
+                <>
+                  <IconButton
+                    sx={{ color: "lightgray" }}
+                    onClick={onClickModifyToggleHandler}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    sx={{ color: "lightgray" }}
+                    onClick={onClickDeleteHandler}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </>
+              )}
             </SCommentActions>
           </>
         )}

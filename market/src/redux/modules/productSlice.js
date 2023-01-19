@@ -4,6 +4,14 @@ import { authInstance, client, defaultInstance } from "../../shared/api/api";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
+/* Action Type */
+export const actionType = {
+  product: {
+    GET_POST_DETAIL: "GET_POST_DETAIL",
+    POST_POST_FAVORITE: "POST_POST_FAVORITE",
+  },
+};
+
 ///////// 게시글 추가 thunk,POST ///////////////////
 export const __addPostThunk = createAsyncThunk(
   "ADD_POST",
@@ -118,7 +126,7 @@ export const __getPostThunk = createAsyncThunk(
           },
           params: {
             page: 1,
-            size: 100,
+            size: 30,
             isAsc: false,
             sortBy: "id",
           },
@@ -139,6 +147,33 @@ export const __getPostThunk = createAsyncThunk(
 
 /////////// 단일 게시글 조회 /////////////////
 
+export const __detailPost = createAsyncThunk(
+  actionType.product.GET_POST_DETAIL,
+  async (id, thunkAPI) => {
+    try {
+      const result = await client.get(`/posts/${id}`);
+      return thunkAPI.fulfillWithValue(result.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+/////////// 상품 찜 /////////////////
+
+export const __productFavorite = createAsyncThunk(
+  actionType.product.POST_POST_FAVORITE,
+  async (id, thunkAPI) => {
+    try {
+      const result = await client.patch(`/posts/like/${id}`);
+      console.log(result.data);
+      return thunkAPI.fulfillWithValue(result.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 ///////////// initialState //////////////////////////
 const initialState = {
   post_list: [],
@@ -152,6 +187,7 @@ const initialState = {
   },
   error: null,
   isLoading: false,
+  detailPost: {},
 };
 
 /////////////// slice /////////////
@@ -184,6 +220,33 @@ export const productSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+    // 상품 상세
+    [__detailPost.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__detailPost.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.detailPost = action.payload;
+      console.log("상세 데이터!", action.payload);
+    },
+    [__detailPost.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    // 상품 상세
+    [__detailPost.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__detailPost.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.detailPost = action.payload;
+      console.log("상세 데이터!", action.payload);
+    },
+    [__detailPost.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
     // [__addProductImgPostThunk.pending]: (state) => {
     //   state.isLoading = true;
     // },
