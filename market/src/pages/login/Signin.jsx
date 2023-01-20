@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import styled from "styled-components";
 import { AlertView } from "../../components/ui/Alert";
 import { Loading } from "../../components/ui/Loading";
+import { __userInfo } from "../../redux/modules/userSlice";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ const Signin = () => {
   const handleSuccess = () => {
     if (isSuccess) {
       setAlertMessage({});
+      dispatch(__userInfo());
       navigate("/");
     }
   };

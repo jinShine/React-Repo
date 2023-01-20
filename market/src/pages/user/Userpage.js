@@ -14,17 +14,28 @@ import { useSelector } from "react-redux";
 import { Loading } from "../../components/ui/Loading";
 import { __changePassword } from "../../redux/modules/userSlice";
 import { useDispatch } from "react-redux";
+import { __deleteUser } from "../../redux/modules/userSlice";
 
 const Userpage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [passwordOpen, setPasswordOpen] = React.useState(false);
+  const [logoutOpen, setLogoutOpen] = React.useState(false);
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
   const { register, handleSubmit } = useForm();
   const { isSuccess, isLoading, error } = useSelector((state) => state.user);
   const [alertMessage, setAlertMessage] = useState({ type: "", message: "" });
   const { userName } = useSelector((state) => state.user);
+
+  //onClick
+  const handlePasswordOpen = () => setPasswordOpen(true);
+  const handlePasswordClose = () => setPasswordOpen(false);
+  const handleLogoutOpen = () => setLogoutOpen(true);
+  const handleLogoutClose = () => setLogoutOpen(false);
+  const handleDeleteOpen = () => setDeleteOpen(true);
+  const handleDeleteClose = () => setDeleteOpen(false);
+
+  console.log(userName);
 
   useEffect(() => {
     setAlertMessage({ type: "error", message: error });
@@ -32,6 +43,8 @@ const Userpage = () => {
   }, [error, isSuccess]);
 
   const handleChangePw = (user) => {
+    user.username = userName;
+    console.log(user);
     dispatch(__changePassword(user));
   };
 
@@ -45,7 +58,16 @@ const Userpage = () => {
     }
   };
 
-  const logoutSubmit = () => {};
+  const logoutSubmit = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
+  const deleteSubmit = () => {
+    localStorage.clear();
+    dispatch(__deleteUser(userName));
+    navigate("/");
+  };
 
   return (
     <Layout>
@@ -64,12 +86,12 @@ const Userpage = () => {
       <StContainer>
         {/* ///////////////비번 변경//////////////////// */}
         <>
-          <div onClick={handleOpen}>비밀번호 변경</div>
+          <div onClick={handlePasswordOpen}>비밀번호 변경</div>
           <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            open={passwordOpen}
+            onClose={handlePasswordClose}
+            aria-labelledby="first-modal-title"
+            aria-describedby="first-modal-description"
           >
             <form onSubmit={handleSubmit(handleChangePw, handleError)}>
               <StModalBox>
@@ -81,7 +103,7 @@ const Userpage = () => {
                 )}
 
                 <Typography
-                  id="modal-modal-title"
+                  id="first-modal-title"
                   variant="h6"
                   component="h2"
                   fontSize={40}
@@ -121,7 +143,7 @@ const Userpage = () => {
                   {isLoading && <Loading />}
                 </SLoadingContainer>
                 <Typography
-                  id="modal-modal-description"
+                  id="first-modal-description"
                   sx={{ mb: 2, fontSize: 20 }}
                 >
                   변경할 비밀번호를 입력해주세요.
@@ -130,28 +152,20 @@ const Userpage = () => {
             </form>
           </Modal>
         </>
-        {/* ////////////////////////////////////////////// */}
 
         {/* /////////////////////// 로그 아웃 /////////////////////// */}
         <>
-          <div onClick={handleOpen}>로그아웃</div>
+          <div onClick={handleLogoutOpen}>로그아웃</div>
           <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            open={logoutOpen}
+            onClose={handleLogoutClose}
+            aria-labelledby="second-modal-title"
+            aria-describedby="second-modal-description"
           >
             <form onSubmit={logoutSubmit}>
               <StModalBox>
-                {alertMessage.message && (
-                  <AlertView
-                    type={alertMessage.type}
-                    message={alertMessage.message}
-                  />
-                )}
-
                 <Typography
-                  id="modal-modal-title"
+                  id="second-modal-title"
                   variant="h6"
                   component="h2"
                   fontSize={40}
@@ -183,8 +197,49 @@ const Userpage = () => {
           </Modal>
         </>
 
-        {/*/////////////////////////////////////////////////////////////////  */}
-        <div>회원 탈퇴</div>
+        {/*//////////////////////////// 계정 삭제 /////////////////////////////////////  */}
+        <>
+          <div onClick={handleDeleteOpen}>계정 삭제</div>
+          <Modal
+            open={deleteOpen}
+            onClose={handleDeleteClose}
+            aria-labelledby="third-modal-title"
+            aria-describedby="third-modal-description"
+          >
+            <form onSubmit={deleteSubmit}>
+              <StModalBox>
+                <Typography
+                  id="third-modal-title"
+                  variant="h6"
+                  component="h2"
+                  fontSize={40}
+                >
+                  계정을 삭제하시겠어요? 🥺
+                </Typography>
+                <StPwBox>
+                  <SButton
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      backgroundColor: gTheme.color.primary,
+                      fontSize: 16,
+                      fontWeight: 700,
+                      width: 150,
+                    }}
+                  >
+                    계정 삭제
+                  </SButton>
+                </StPwBox>
+                <SLoadingContainer>
+                  {isLoading && <Loading />}
+                </SLoadingContainer>
+              </StModalBox>
+            </form>
+          </Modal>
+        </>
       </StContainer>
     </Layout>
   );
