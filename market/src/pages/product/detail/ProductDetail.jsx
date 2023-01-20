@@ -4,27 +4,26 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import ProductCommentList from "./ProductCommentList";
 
-import Layout from "../../../components/Layout";
-import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { gTheme } from "../../../theme/globalTheme";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import IconButton from "@mui/material/IconButton";
 import { useDispatch, useSelector } from "react-redux";
+import Layout from "../../../components/Layout";
+import {
+  __deleteComment,
+  __getComments,
+  __modifyComment,
+  __submitComment,
+} from "../../../redux/modules/commentSlice";
 import {
   __deletePost,
   __detailPost,
   __productFavorite,
 } from "../../../redux/modules/productSlice";
 import { priceToString } from "../../../shared/utils/priceToString";
-import {
-  __submitComment,
-  __getComments,
-  __deleteComment,
-  __modifyComment,
-} from "../../../redux/modules/commentSlice";
-import { COMMON_DEALY_TIME } from "../../../shared/utils/delay";
+import { gTheme } from "../../../theme/globalTheme";
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -43,9 +42,9 @@ const ProductDetail = () => {
 
   const handlePostDelete = () => {
     dispatch(__deletePost(productId));
-    // setTimeout(() => {
-    //   navigate("/");
-    // }, COMMON_DEALY_TIME);
+
+    window.alert("게시물이 삭제 되었습니다.");
+    navigate("/");
   };
 
   const handleFavorite = () => {
@@ -101,9 +100,6 @@ const ProductDetail = () => {
             <SUserActions>
               {detailPost.state && (
                 <>
-                  <IconButton sx={{ color: "lightgray" }}>
-                    <EditIcon />
-                  </IconButton>
                   <IconButton
                     sx={{ color: "lightgray" }}
                     onClick={handlePostDelete}
@@ -112,7 +108,10 @@ const ProductDetail = () => {
                   </IconButton>
                 </>
               )}
-              <IconButton sx={{ color: "orange" }} onClick={handleFavorite}>
+              <IconButton
+                sx={{ color: gTheme.color.primary }}
+                onClick={handleFavorite}
+              >
                 {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
             </SUserActions>

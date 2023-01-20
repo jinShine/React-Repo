@@ -165,7 +165,6 @@ export const __productFavorite = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const result = await client.patch(`/posts/like/${id}`);
-      console.log(result.data);
       return thunkAPI.fulfillWithValue(result.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -249,7 +248,6 @@ export const productSlice = createSlice({
     },
     [__productFavorite.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.detailPost = action.payload;
     },
     [__productFavorite.rejected]: (state, action) => {
       state.isLoading = false;
