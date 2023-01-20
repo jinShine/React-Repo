@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# 미니 프로젝트 - Flea Market
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+중고 물품 거래 사이트 만들기
+<br>
+<br>
 
-## Available Scripts
+<br>
+<br>
 
-In the project directory, you can run:
+# 주요 기능
 
-### `yarn start`
+## 토큰 인증 로그인<br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 기능 : JWT 토큰 인증 방식으로 로그인 기능 구현
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## CRUD
 
-### `yarn test`
+- 메인 페이지 - 전체 게시글 조회 (GET), 글 작성(POST)
+- 상세페이지 - 게시글 조회 (GET), 댓글 작성 (POST), 댓글 수정 (PATCH), 댓글 삭제(DELETE)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 이미지 업로드
 
-### `yarn build`
+- form data로 S3 서버에 데이터 전송
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 게시글 '찜하기'
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 좋아요 (💙) 버튼 기능 구현
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br>
+<br>
+<br>
 
-### `yarn eject`
+# 기술 스택
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<!-- <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white">
+<img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> -->
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
+<img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=black">
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=black">
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=MUI&logoColor=white">
+<img src="https://img.shields.io/badge/styled-components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
 
-## Learn More
+<img src="https://img.shields.io/badge/aws-232F3E?style=for-the-badge&logo=aws&logoColor=white">
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br>
+<br>
+<br>
 
-### Code Splitting
+# API
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+http://43.201.34.54:8080/swagger-ui.html#/
 
-### Analyzing the Bundle Size
+<br>
+<br>
+<br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# 와이어 프레임
 
-### Making a Progressive Web App
+https://www.figma.com/file/5eU2ZOr3DMBFdaEBQav9GC/6%EC%A1%B0-%EB%AF%B8%EB%8B%88-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84?node-id=0%3A1&t=5DcOY5yAwHjM3Abm-0
+<br>
+<br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- 메인 페이지
+  ![logo](./public/img/mainpage.png)
+  <br>
+  <br>
+- 로고
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![logo](./public/img/fleamarket2.png)

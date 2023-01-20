@@ -37,7 +37,7 @@ const Card = ({ post }) => {
               .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
             원
           </div>
-          <div>댓글 갯수</div>
+          {/* <div>댓글 갯수</div> */}
         </StTextContainer>
       </StCard>
     </StLink>

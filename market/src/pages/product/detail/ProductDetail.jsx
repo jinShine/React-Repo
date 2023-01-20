@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import ProductCommentList from "./ProductCommentList";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -24,6 +23,7 @@ import {
 } from "../../../redux/modules/productSlice";
 import { priceToString } from "../../../shared/utils/priceToString";
 import { gTheme } from "../../../theme/globalTheme";
+import Header from "../../../components/Header";
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -87,6 +87,17 @@ const ProductDetail = () => {
 
   return (
     <Layout>
+      <Stdiv>
+        <Button
+          variant="contained"
+          sx={{ bgcolor: gTheme.color.primary }}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          이 전 으 로
+        </Button>
+      </Stdiv>
       <SWrapper>
         <SContentContainer>
           <SImageContainer>
@@ -276,4 +287,10 @@ const SCommentTextField = styled(TextField)`
 `;
 const SCommentRegistration = styled(Button)`
   height: 53px;
+`;
+
+const Stdiv = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 50px 40px 60px 40px;
 `;

@@ -104,6 +104,9 @@ const commentSlice = createSlice({
         const comment = action.payload;
         comment.state = true;
         comment.replies = [];
+        // 새로고침 하면 의미없음
+        //post 했을때 추가된 값이 response로 내려옴
+        // 댓글 조회하는 배열에 추가함 (배열이 변경되어서 스스로 렌더링 -> 리로드)
         state.comments = [...state.comments, comment];
       })
       .addCase(__submitComment.rejected, (state, action) => {

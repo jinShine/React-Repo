@@ -111,7 +111,7 @@ export const __getPostThunk = createAsyncThunk(
           },
           params: {
             page: 1,
-            size: 30,
+            size: 100,
             isAsc: false,
             sortBy: "id",
           },
@@ -173,12 +173,6 @@ export const __productFavorite = createAsyncThunk(
 ///////////// initialState //////////////////////////
 const initialState = {
   post_list: [],
-  post: {
-    id: 0,
-    name: "",
-    discription: "",
-    price: 0,
-  },
   error: null,
   isSuccess: false,
   isLoading: false,
@@ -193,7 +187,6 @@ export const productSlice = createSlice({
     __postReset: (state, action) => {
       state.isSuccess = false;
       state.isLoading = false;
-      state.post = {};
     },
   },
   extraReducers: {
@@ -209,6 +202,7 @@ export const productSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+    //  게시글 추가 //
     [__addPostThunk.pending]: (state) => {
       state.isSuccess = false;
       state.isLoading = true;
@@ -216,6 +210,9 @@ export const productSlice = createSlice({
     [__addPostThunk.fulfilled]: (state, action) => {
       state.isSuccess = true;
       state.isLoading = false;
+      // response로 내려오는 값이 없어서 ("작성 완료")
+      // payload를 store에 담을 필요가 없음
+      //
       console.log("__addPostThunk 데이터", action.payload);
     },
     [__addPostThunk.rejected]: (state, action) => {

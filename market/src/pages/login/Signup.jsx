@@ -78,6 +78,7 @@ const Signup = () => {
               onChange={handleSelectedImage}
             />
           </Button>
+          <p>프로필 사진을 등록해주세요.</p>
         </STitleContainer>
         <form onSubmit={handleSubmit(handleSignup, handleError)}>
           <TextField
@@ -141,7 +142,7 @@ const Signup = () => {
           </SButton>
           <SSignupContainer>
             <SSignupText>이미 계정이 있나요?</SSignupText>
-            <Link to={"/signin"}>로그인</Link>
+            <StLink to={"/signin"}>로그인</StLink>
           </SSignupContainer>
         </form>
       </SCard>
@@ -209,4 +210,9 @@ const SSignupContainer = styled.div`
 const SSignupText = styled.p`
   margin-right: 6px;
   color: gray;
+`;
+
+const StLink = styled(Link)`
+  text-decoration: none;
+  color: #004a7c;
 `;

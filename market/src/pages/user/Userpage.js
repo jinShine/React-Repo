@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
-import Layout from "../../components/Layout";
-import Header from "../../components/Header";
-import styled from "styled-components";
-import { Button } from "@mui/material";
-import { gTheme } from "../../theme/globalTheme";
-import { useNavigate } from "react-router-dom";
-import { Modal } from "@mui/material";
+import { Button, Modal, TextField } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import Header from "../../components/Header";
+import Layout from "../../components/Layout";
 import { AlertView } from "../../components/ui/Alert";
-import { useSelector } from "react-redux";
 import { Loading } from "../../components/ui/Loading";
-import { __changePassword } from "../../redux/modules/userSlice";
-import { useDispatch } from "react-redux";
-import { __deleteUser } from "../../redux/modules/userSlice";
-import axios from "axios";
-import { clearToken, client } from "../../shared/api/api";
+import {
+  __changePassword,
+  __deleteUser,
+  __userReset,
+} from "../../redux/modules/userSlice";
+import { clearToken } from "../../shared/api/api";
+import { gTheme } from "../../theme/globalTheme";
 
 const Userpage = () => {
   const navigate = useNavigate();
@@ -63,12 +62,18 @@ const Userpage = () => {
   const logoutSubmit = () => {
     localStorage.clear();
     clearToken();
+    // clear안하면 instance에 저장되어 있는 토큰매니저에 토큰이 계속 있는상태임
+    // 그래서 instance에 있는 토큰을 지워야함
     navigate("/");
+    // window.location.reload();
+    // 계속 success 가 true상태니까 로그아웃하고 로그인 누르면 signin으로 안가고 홈으로 감
+    // success를 클린업 해야함
   };
 
   const deleteSubmit = () => {
     localStorage.clear();
     dispatch(__deleteUser(userName));
+    clearToken();
     navigate("/");
   };
 
@@ -287,7 +292,7 @@ const StModalBox = styled.div`
   background-color: #fafafa;
   border: 2px solid #004a7c;
   box-shadow: 24px;
-  padding: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;

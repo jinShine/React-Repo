@@ -45,6 +45,10 @@ const ProductRegistration = () => {
 
   useEffect(() => {
     setImageURL(productData.url);
+    // setImageURL에 url을 넣었기 때문에 productData 안에 내용물(url)은 더이상 필요 없음
+    // fileData는 임시 저장소 같은 느낌 (이미지 url 받으려고)
+    // 비워주지 않으면 내용물이 계속 남아있음
+    // 게시글 post 해서 서버에 데이터 보내고 GET으로 가져오면 되니까 store에 img url은 필요없음
     setPost({
       ...post,
       imageResponseDto: productData,
@@ -52,6 +56,11 @@ const ProductRegistration = () => {
   }, [productData]);
 
   useEffect(() => {
+    // true일때만 home으로
+    // 게시글이 등록된것이 확인 되었을 때 navegate
+    // 어쩔땐 등록이 되고 어쩔땐 등록이 안되고 그랬던 이유가
+    // 시점이 안맞아서 그랬던거임
+    // 상태값을 받아서 통신 성공이 확인 되면 그때 navigate
     if (isUploadSucces) {
       navigate("/");
     }
@@ -61,6 +70,8 @@ const ProductRegistration = () => {
       dispatch(__postReset());
     };
   }, [isUploadSucces]);
+  // isUploadSucces가 변경되면 useEffect 실행
+  // 클린업 실행해서 succes 상태 변경
 
   const imagePreview = (fileBlob) => {
     const reader = new FileReader();
