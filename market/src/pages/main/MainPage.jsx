@@ -8,14 +8,10 @@ import styled from "styled-components";
 import { __getPostThunk } from "../../redux/modules/productSlice";
 import { __userInfo } from "../../redux/modules/userSlice";
 import { tokenManager } from "../../shared/utils/tokenManager";
-import { common } from "@mui/material/colors";
-import { COMMON_DEALY_TIME } from "../../shared/utils/delay";
 
 const MainPage = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { nickName } = useSelector((state) => state.user);
-
   const { post_list } = useSelector((state) => state.post);
 
   useEffect(() => {

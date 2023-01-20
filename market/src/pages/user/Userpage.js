@@ -36,8 +36,6 @@ const Userpage = () => {
   const handleDeleteOpen = () => setDeleteOpen(true);
   const handleDeleteClose = () => setDeleteOpen(false);
 
-  console.log(userName);
-
   useEffect(() => {
     setAlertMessage({ type: "error", message: error });
     handleSuccess();
@@ -45,7 +43,6 @@ const Userpage = () => {
 
   const handleChangePw = (user) => {
     user.username = userName;
-    console.log(user);
     dispatch(__changePassword(user));
   };
 
@@ -205,7 +202,7 @@ const Userpage = () => {
           </Modal>
         </>
 
-        {/*//////////////////////////// 계정 삭제 /////////////////////////////////////  */}
+        {/*////////////////////////// 계정 삭제 /////////////////////////  */}
         <>
           <div onClick={handleDeleteOpen}>계정 삭제</div>
           <Modal

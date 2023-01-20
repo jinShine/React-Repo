@@ -49,7 +49,6 @@ export const __deleteComment = createAsyncThunk(
   async (commentId, thunkAPI) => {
     try {
       let result = await client.delete(`/comments/${commentId}`);
-      console.log(result.data);
       return thunkAPI.fulfillWithValue(commentId);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -86,7 +85,6 @@ const commentSlice = createSlice({
         state.isSuccess = true;
         state.isLoading = false;
         state.comments = action.payload;
-        console.log("댓글 데이터!", action.payload);
       })
       .addCase(__getComments.rejected, (state, action) => {
         state.isSuccess = false;

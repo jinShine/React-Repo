@@ -1,9 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { authInstance, client, defaultInstance } from "../../shared/api/api";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { authAPI } from "../../shared/api/authAPI";
+import { client } from "../../shared/api/api";
 
 /* Action Type */
 export const actionType = {
@@ -15,44 +11,10 @@ export const actionType = {
 };
 
 ///////// 게시글 추가 thunk,POST ///////////////////
+
 export const __addPostThunk = createAsyncThunk(
   "ADD_POST",
   async (payload, thunkAPI) => {
-    // const formData = new FormData();
-
-    // const request = {
-    //   name: payload.name,
-    //   description: payload.description,
-    //   price: payload.price,
-    // };
-
-    // const json = JSON.stringify(request);
-    // const blob = new Blob([json], { type: "application/json" });
-
-    // formData.append("name", payload.name);
-    // formData.append("description", payload.description);
-    // formData.append("price", payload.price);
-    // formData.append("category", payload.category);
-    // formData.append("image_url", payload.image_url);
-    // formData.append("request", blob);
-
-    // const productData = useSelector((state) => state.file.fileData);
-    // const [imageURL, setImageURL] = useState("");
-
-    // useEffect(() => {
-    //   setImageURL(productData.url);
-    // }, [productData]);
-
-    // const newPayload = {
-    //   name: payload.name,
-    //   description: payload.description,
-    //   price: payload.price,
-    //   category: payload.category,
-    //   imageUrl: payload.imageResponseDto.url,
-    // };
-
-    // console.log(newPayload);
-
     try {
       const { data } = await client.post(
         process.env.REACT_APP_BASE_URL + "/posts",
@@ -71,34 +33,8 @@ export const __addPostThunk = createAsyncThunk(
   }
 );
 
-///////// 이미지 업로드 thunk,POST ///////////////////
-// export const __addProductImgPostThunk = createAsyncThunk(
-//   "ADD_PRODUCT_IMG_POST",
-//   async (payload, thunkAPI) => {
-//     const formData = new FormData();
-
-//     formData.append("file", payload.file);
-
-//     try {
-//       const { data } = await axios.post(
-//         `http://43.201.34.54:8080/files/image`,
-//         formData,
-//         {
-//           headers: {
-//             "Content-Type": "multipart/form-data",
-//             // Authorization:
-//             // "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dGU0ISEiLCJhdXRoIjoiVVNFUiIsImV4cCI6MTY3Mzk3MTkyNywiaWF0IjoxNjczOTY4MzI3fQ.J3POP6SstOzeVLFfrQgG7urpbG-nadac4OSrbAtBL94",
-//           },
-//         }
-//       );
-//       return thunkAPI.fulfillWithValue(data);
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
-
 ///////// 전체 게시글 조회 thunk,GET ///////////////////
+
 export const __getPostThunk = createAsyncThunk(
   "GET_POSTS",
   async (payload, thunkAPI) => {
@@ -132,15 +68,12 @@ export const __deletePost = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const result = await client.delete(`/posts/${id}`);
-      console.log(result);
       return thunkAPI.fulfillWithValue(result.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
-
-/////////////// 게시글 수정 ////////////////////////
 
 /////////// 단일 게시글 조회 /////////////////
 
@@ -195,7 +128,6 @@ export const productSlice = createSlice({
     },
     [__getPostThunk.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("__getPostThunk 데이터", action.payload);
       state.post_list = action.payload.content;
     },
     [__getPostThunk.rejected]: (state, action) => {
@@ -212,8 +144,6 @@ export const productSlice = createSlice({
       state.isLoading = false;
       // response로 내려오는 값이 없어서 ("작성 완료")
       // payload를 store에 담을 필요가 없음
-      //
-      console.log("__addPostThunk 데이터", action.payload);
     },
     [__addPostThunk.rejected]: (state, action) => {
       state.isSuccess = false;
@@ -227,7 +157,6 @@ export const productSlice = createSlice({
     [__detailPost.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.detailPost = action.payload;
-      console.log("상세 데이터!", action.payload);
     },
     [__detailPost.rejected]: (state, action) => {
       state.isLoading = false;
@@ -255,18 +184,6 @@ export const productSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-
-    // [__addProductImgPostThunk.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [__addProductImgPostThunk.fulfilled]: (state, action) => {
-    //   state.isLoading = false;
-    //   // state.post_list = [...state.post_list, action.payload];
-    // },
-    // [__addProductImgPostThunk.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.error = action.payload;
-    // },
   },
 });
 

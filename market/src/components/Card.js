@@ -1,28 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Card = ({ post }) => {
-  const navigate = useNavigate();
-
-  //   onClick={() => {
-  //     navigate(`/guestbooks/${guestbook.id}`);
-  //   }}
-
-  // 콘솔 로그 post
-  // console.log(post);
-
-  // const productData = useSelector((state) => state.file.fileData);
-  // const [imageURL, setImageURL] = useState("");
-
-  // useEffect(() => {
-  //   setImageURL(productData.url);
-  // }, [productData]);
-
   return (
     <StLink to={`/product-detail/${post.id}`} key={post.id}>
       <StCard>

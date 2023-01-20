@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
 import Layout from "../../components/Layout";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
@@ -10,7 +9,6 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InputLabel from "@mui/material/InputLabel";
-// import { gTheme } from "../../theme/globalTheme";
 import { FormControl } from "@mui/material";
 import { __addPostThunk, __postReset } from "../../redux/modules/productSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,7 +28,6 @@ const ProductRegistration = () => {
   const productData = useSelector((state) => state.file.fileData);
 
   const [imageURL, setImageURL] = useState("");
-
   const [category, setCategory] = useState("");
   const [image, setImage] = useState("img/base_img.png");
   const [imageFile, setImageFile] = useState("");
@@ -113,7 +110,6 @@ const ProductRegistration = () => {
   return (
     <Layout>
       <Header />
-
       <Stdiv>
         <Button
           variant="contained"
