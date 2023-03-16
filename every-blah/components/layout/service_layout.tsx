@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { GlobalNavigationBar } from './global_navigation_bar';
 
 interface IProps {
   title: string;
@@ -9,6 +10,7 @@ export const ServiceLayout = function ({ title = 'every-blah', children }: IProp
   return (
     <>
       <Head>{title}</Head>
+      <GlobalNavigationBar />
       {children}
     </>
   );

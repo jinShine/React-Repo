@@ -1,35 +1,12 @@
-import { NextPage } from 'next';
 import styled from '@emotion/styled';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { ServiceLayout } from '@/components/service_layout';
+import { GoogleAuthProvider } from 'firebase/auth';
+import { NextPage } from 'next';
 import { GoogleLoginButton } from '@/components/google_login_button';
-import FirebaseClient from '@/models/firebase_client';
-
-const provider = new GoogleAuthProvider();
+import { ServiceLayout } from '@/components/layout/service_layout';
+import useFirebaseAuth from '@/hooks/use_firebase_auth';
 
 const IndexPage: NextPage = function () {
-  const onClickGoogleLogin = () => {
-    signInWithPopup(FirebaseClient.getInstance().Auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const { user } = result;
-        console.log(user);
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const { email } = error.customData;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-      });
-  };
+  const { signInWithGoogle } = useFirebaseAuth();
 
   return (
     <ServiceLayout title="test">
@@ -37,7 +14,7 @@ const IndexPage: NextPage = function () {
         <img src="/vercel.svg" alt="메인 로고" />
         <div># 애블</div>
       </Wrapper>
-      <GoogleLoginButton onClick={onClickGoogleLogin} />
+      <GoogleLoginButton onClick={signInWithGoogle} />
     </ServiceLayout>
   );
 };
