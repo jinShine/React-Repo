@@ -1,9 +1,8 @@
-import { useRecoilState } from 'recoil';
 import { GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import FirebaseClient from '@/models/firebase_client';
-import { IAuthUser } from '@/models/in_auth_user';
+import { useRecoilState } from 'recoil';
 import { AuthUserState } from '@/store/auth_user_atom';
+import FirebaseClient from '@/models/firebase_client';
 
 export default function useFirebaseAuth() {
   const [authUser, setAuthUser] = useRecoilState(AuthUserState);
@@ -16,7 +15,20 @@ export default function useFirebaseAuth() {
     try {
       const signInResult = await signInWithPopup(FirebaseClient.getInstance().Auth, provider);
       if (signInResult.user) {
-        console.info(signInResult.user);
+        const res = await fetch('/api/members.add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            uid: signInResult.user.uid,
+            email: signInResult.user.email,
+            displayName: signInResult.user.displayName,
+            photoURL: signInResult.user.photoURL,
+          }),
+        });
+
+        console.info({ status: res.status });
+        const resData = await res.json();
+        console.info(resData);
       }
     } catch (error) {
       console.error(error);
