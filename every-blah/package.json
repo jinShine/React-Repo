@@ -1,5 +1,5 @@
 {
-  "name": "blahx2",
+  "name": "every-blah",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,15 +8,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "firebase-admin": "^11.8.0",
     "next": "12.0.7",
     "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "styled-components": "^5.3.3"
+    "react-dom": "17.0.2"
   },
   "devDependencies": {
     "@types/node": "^16.11.13",
     "@types/react": "^17.0.37",
-    "@types/styled-components": "^5.1.18",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
     "babel-eslint": "^10.1.0",
