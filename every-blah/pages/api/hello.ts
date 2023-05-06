@@ -1,4 +1,4 @@
-import FirebaseAdmin from '@/models/firebase_admin';
+import FirebaseAdmin from '@/src/commons/libraries/firebase/firebase_admin';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(_: NextApiRequest, res: NextApiResponse) {
