@@ -25,26 +25,25 @@ export default function useAuth() {
       const signInResult = await signInWithPopup(FirebaseClient.getInstance().Auth, provider);
       if (signInResult.user) {
         console.log(signInResult.user);
+
+        const res = await fetch('/api/members/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            uid: signInResult.user.uid,
+            email: signInResult.user.email,
+            displayName: signInResult.user.displayName,
+            photoURL: signInResult.user.photoURL,
+          }),
+        });
+
+        console.info({ status: res.status });
+        const resData = await res.json();
+        console.info(resData);
       }
     } catch (error) {
       console.error(error);
     }
-
-    // signInWithPopup(FirebaseClient.getInstance().Auth, provider)
-    //   .then((result) => {
-    //     const credential = GoogleAuthProvider.credentialFromResult(result);
-    //     const token = credential?.accessToken;
-    //     const user = result.user;
-    //     console.log('########', result);
-    //   })
-    //   .catch((error) => {
-    //     // const errorCode = error.code;
-    //     // const errorMessage = error.message;
-    //     // // The email of the user's account used.
-    //     // const email = error.customData.email;
-    //     // // The AuthCredential type that was used.
-    //     // const credential = GoogleAuthProvider.credentialFromError(error);
-    //   });
   };
 
   const signOut = () => {

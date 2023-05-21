@@ -1,6 +1,6 @@
 import { EMPTY_PROFILE_URL } from '@/src/commons/constants';
 import useAuth from '@/src/commons/hooks/useAuth';
-import { ServiceLayout } from '@/src/components/Layouts/service_layout';
+import { ServiceLayout } from '@/src/components/layouts/service_layout';
 import { GoogleLoginButton } from '@/src/components/google_login_button';
 import { Box, Center, Flex, Heading, Image } from '@chakra-ui/react';
 import { NextPage } from 'next';

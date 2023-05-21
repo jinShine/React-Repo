@@ -9,7 +9,7 @@ interface Config {
 }
 
 export default class FirebaseAdmin {
-  public static instance: FirebaseAdmin;
+  private static instance: FirebaseAdmin;
 
   private init = false;
 
@@ -24,7 +24,7 @@ export default class FirebaseAdmin {
   }
 
   private start(): void {
-    const havaApp = admin.app.length !== 0;
+    const havaApp = admin.apps.length !== 0;
     if (havaApp) {
       this.init = true;
       return;
@@ -43,7 +43,7 @@ export default class FirebaseAdmin {
   }
 
   /** Firestore 리턴 */
-  public get Firebase(): FirebaseFirestore.Firestore {
+  public get Firestore(): FirebaseFirestore.Firestore {
     if (this.init === false) {
       this.start();
     }
